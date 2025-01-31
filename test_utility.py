@@ -1,4 +1,16 @@
 from LinearAlgebra import Matrix, Vector
+import random
+
+
+def vector_utility2(size):
+
+   v = Vector([random.randint(0, 100) for i in range(size)])
+   dim = int(size ** 0.5)
+   if dim * dim < size:
+       dim += 1
+   m = v.to_matrix(dim, dim)
+   v = m.to_vector()
+   return v.size()
 
 
 def vector_utility(size):
@@ -18,7 +30,7 @@ def vector_utility(size):
    m = v.to_matrix(dim, dim)
    
    # Convert back to vector
-   v2 = m.to_vector()
+   v = m.to_vector()
    
    return v.size()
 
