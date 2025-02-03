@@ -4,10 +4,13 @@ import tracemalloc
 import gc
 import time
 
+
 from tests import (
 	vector_utility,
 	vector_add_complexity,
-	vector_sub_complexity
+	vector_sub_complexity,
+	matrix_add_complexity,
+	matrix_scalar_complexity
 )
 
 
@@ -25,14 +28,15 @@ def measure_complexity(func, size):
 	return peak / 1024, execution_time 
 
 
-
 def analyze_complexity():
 	# Test sizes (exponential increase for better visualization)
 	sizes = [4, 16, 64, 256, 1024, 4096]
 	functions = [
-			vector_utility,
-			vector_add_complexity,
-			vector_sub_complexity,
+			#vector_utility,
+			#vector_add_complexity,
+			#vector_sub_complexity,
+			#matrix_add_complexity,
+			matrix_add_complexity
 	]
 	memory_usage = []
 	time_usage = []
@@ -93,7 +97,6 @@ def analyze_complexity():
 			  "O(n²)" if avg_time_ratio <= 2.2 else f"O(n^{avg_time_ratio:.1f})")
 
 		print("\n" + "=" * 50 + "\n")
-
 
 
 if __name__ == "__main__":

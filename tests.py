@@ -142,6 +142,7 @@ def scalar_mult_complexity(size):
 
 def matrix_add():
     n = 5
+
     vector = [i for i in range(0, n)]
     a = Matrix([vector, vector, vector, vector, vector])
     b = Matrix([vector, vector, vector, vector, vector])
@@ -150,27 +151,73 @@ def matrix_add():
     print(f"Matrix B:\n{b}")
     start = time.time()
     a.add(b)
+    print("****", vector)
     total_time1 = time.time() - start
 
     print(f"Matrix A + B:\n{a}")
     print()
     print(f"Column major")
-
+    vector = [i for i in range(0, n)]
     mat1 = Matrix.column_major([vector, vector, vector, vector, vector])
-    mat2 = Matrix.column_major([vector, vector, vector, vector, vector])
     print(f"Matrix 1:\n{mat1}")
+    mat2 = Matrix.column_major([vector, vector, vector, vector, vector])
     print(f"Matrix 2:\n{mat2}")
     start = time.time()
     mat1.add(mat2)
     total_time2 = time.time() - start
     print(f"Matrix 1 + 2:\n{mat1}")
+    print(type(mat1))
+    print()
 
     print(f"Total time row major: {total_time1:.6f} seconds")
     print(f"Total time column major: {total_time2:.6f} seconds")
 
 
+def matrix_add_complexity(n):
+    size = int(n ** 0.5)
+    mat = [[random.randint(0, 100) for _ in range(size)] for _ in range(size)]
+    a = Matrix(mat)
+    b = Matrix(mat)
+    a.add(b)
 
-    #print(a)
+
+def matrix_sub(n=16):
+    size = int(n ** 0.5)
+    mat = [[random.randint(0, 100) for _ in range(size)] for _ in range(size)]
+    A = Matrix(mat)
+    print(f"Matrix A: \n{A}")
+    B = Matrix(mat)
+    print(f"Matrix B: \n{B}")
+    print(f"\n A - B: \n{A.sub(B)}\n")
+
+
+def matrix_scalar(n=16):
+    size = int(n ** 0.5)
+    mat = [[random.randint(0, 100) for _ in range(size)] for _ in range(size)]
+    A = Matrix(mat)
+    print(f"\nMatrix A: \n{A}")
+    scalar = random.randint(0, 100)
+    print(f"\nscalar: {scalar}")
+    print(f"\n A * scalar: \n{A.scl(scalar)}\n")
+
+
+def matrix_scalar_complexity(size):
+    size = int(n ** 0.5)
+    mat = [[random.randint(0, 100) for _ in range(size)] for _ in range(size)]
+    A = Matrix(mat)
+    scalar = 42
+    A.scl(scalar)
+
+
+def vector_linear_combination(n=16):
+    size = int(n ** 0.5)
+
+    vectors = [Vector([random.randint(0, 100) for _ in range(size)]) for _ in range(3)]
+    print(vectors)
+    coefficients = [random.randint(0, 100) for _ in range(3)]
+    print(coefficients)
+
+    Vector.linear_combination(vectors, coefficients)
 
 
 if __name__ == "__main__":
@@ -186,10 +233,19 @@ if __name__ == "__main__":
         
         input("Vector scalar multiplication...")
         scalar_mult(5)
+
+        input("Matrix add...")
+        matrix_add()
+
+        #input("Matrix sub...")
+        matrix_sub()
+
+        #input("Matrix x scalar...")
+        matrix_scalar()
         '''
 
-        #input("Matrix add...")
-        matrix_add()
+        #input("Linear combination...")
+        vector_linear_combination()
 
 
 

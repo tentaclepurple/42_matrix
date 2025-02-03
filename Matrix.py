@@ -64,32 +64,6 @@ class Vector:
         self.data = [x * scalar for x in self.data]
         return self
 
-    @classmethod
-    def linear_combination(cls, vectors: List['Vector'], coefficients: List[Union[int, float, complex]]) -> 'Vector':
-        """
-        Computes the linear combination of vectors using given coefficients.
-        
-        Args:
-            vectors: Vector list
-            coefficients: Coefficient list
-            
-        Returns:
-            Vector with the linear combination
-        """
-
-        if len(vectors) != len(coefficients):
-            raise ValueError("Number of vectors must match number of coefficients")
-        if not all(isinstance(coefficients, (int, float, complex))):
-            raise TypeError("Scalar must be numeric (int, float, or complex)")
-        if not all(isinstance(vectors, Vector)):
-            raise TypeError("Scalar must be numeric (int, float, or complex)")
-
-        print("hello")
-        
-
-        
-
-
 
 @dataclass
 class Matrix:
@@ -97,6 +71,10 @@ class Matrix:
 
     def __post_init__(self):
         # Check types
+        #if not isinstance(self.data, list):
+        #    raise TypeError("Matrix data must be a list")
+        #if not all(isinstance(sublist, list) for sublist in self.data):
+        #    raise TypeError("Matrix data must be a list of lists")
         all_elements = list(chain.from_iterable(self.data))
         if not all(isinstance(x, (int, float, complex)) for x in all_elements):
             raise TypeError("Matrix elements must be numeric (int, float, or complex)")
@@ -165,7 +143,13 @@ class Matrix:
         if not isinstance(scalar, (int, float, complex)):
             raise TypeError("Matrix elements must be numeric (int, float, or complex)")
         
-        self.data = [[a * scalar for _ in col] for col in self.data]
+        #self.data = [[a * scalar for col] for col in self.data]
+
+        rows, cols = self.shape()
+        for i in range(rows):
+            for j in range(cols):
+                self.data[i][j] *= scalar
+
 
         return self
         
