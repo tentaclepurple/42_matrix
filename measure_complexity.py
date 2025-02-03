@@ -4,9 +4,10 @@ import tracemalloc
 import gc
 import time
 
-from test_utility import (
+from tests import (
 	vector_utility,
-	vector_utility2
+	vector_add_complexity,
+	vector_sub_complexity
 )
 
 
@@ -30,7 +31,8 @@ def analyze_complexity():
 	sizes = [4, 16, 64, 256, 1024, 4096]
 	functions = [
 			vector_utility,
-			vector_utility2,
+			vector_add_complexity,
+			vector_sub_complexity,
 	]
 	memory_usage = []
 	time_usage = []

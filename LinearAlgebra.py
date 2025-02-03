@@ -1,4 +1,4 @@
-from typing import List, TypeVar
+from typing import List, TypeVar, Union
 from dataclasses import dataclass
 from itertools import chain
 
@@ -43,6 +43,27 @@ class Vector:
         matrix_data = [self.data[i::cols] for i in range(cols)]
         return Matrix(matrix_data)
 
+    def add(self, other: 'Vector') -> None:
+        """Adds another vector to this one"""
+        if len(self.data) != len(other.data):
+            raise ValueError("Vectors must have the same length")
+        self.data = list(map(lambda x, y: x + y, self.data, other.data))
+        return self.data
+
+    def sub(self, other: 'Vector') -> None:
+        """Subtracts another vector from this one"""
+        if len(self.data) != len(other.data):
+            raise ValueError("Vectors must have the same length")
+        self.data = list(map(lambda x, y: x - y, self.data, other.data))
+        return self.data
+
+    def scl(self, scalar: Union[int, float, complex]) -> None:
+        """Multiplies the vector by a scalar"""
+        if not isinstance(scalar, (int, float, complex)):
+            raise TypeError("Scalar must be numeric (int, float, or complex)")
+        self.data = [x * scalar for x in self.data]
+        return self.data
+
 
 @dataclass
 class Matrix:
@@ -61,6 +82,11 @@ class Matrix:
         if not all(isinstance(x, first_type) for x in all_elements):
             raise TypeError("All elements must be of the same type")
     
+    @classmethod
+    def column_major(cls, row_major: List[List[T]]):
+        column_major = [list(col) for col in zip(*row_major)]
+        return cls(column_major)
+
     def shape(self) -> tuple[int, int]:
         """
         Returns matrix dimensions
@@ -77,16 +103,8 @@ class Matrix:
         return rows == cols
     
     def __str__(self) -> str:
-        """
-        String representation of matrix
-        Prints each row in a new line
-        """
-        rows, cols = self.shape()
-        result = []
-        for i in range(rows):
-            row = [str(self.data[j][i]) for j in range(cols)]
-            result.append("[" + ", ".join(row) + "]")
-        return "\n".join(result)
+
+        return "[" + "\n".join(str(row) for row in self.data) + "]"
     
     def to_vector(self) -> Vector:
         """
@@ -99,3 +117,23 @@ class Matrix:
                       for j in range(cols) 
                       for i in range(rows)]
         return Vector(vector_data)
+    
+    def add(self, other: 'Matrix') -> None:
+        if self.shape() != other.shape():
+            raise TypeError("Both matrices must have the same shape")
+
+        rows, cols = self.shape()
+        for j in range(cols):
+            for i in range(rows):
+                self.data[j][i] += other.data[j][i]
+        return self.data
+    
+    def sub(self, other: 'Matrix') -> None:
+        if self.shape() != other.shape():
+            raise TypeError("Both matrices must have the same shape")
+
+        rows, cols = self.shape()
+        for j in range(cols):
+            for i in range(rows):
+                self.data[j][i] -= other.data[j][i]
+        return self.data
