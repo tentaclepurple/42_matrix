@@ -3,15 +3,7 @@ import matplotlib.pyplot as plt
 import tracemalloc
 import gc
 import time
-
-
-from tests import (
-	vector_utility,
-	vector_add_complexity,
-	vector_sub_complexity,
-	matrix_add_complexity,
-	matrix_scalar_complexity
-)
+from complexity_tests import *
 
 
 def measure_complexity(func, size):
@@ -36,7 +28,13 @@ def analyze_complexity():
 			#vector_add_complexity,
 			#vector_sub_complexity,
 			#matrix_add_complexity,
-			matrix_add_complexity
+			#matrix_add_complexity,
+			#matrix_scalar_complexity,
+			#vector_linear_combination_complexity,
+			#linear_interpolation_vector_complexity,
+			#dot_product_complexity,
+			#norms_complexity,
+			angle_cos_complexity
 	]
 	memory_usage = []
 	time_usage = []

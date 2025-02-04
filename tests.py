@@ -1,4 +1,5 @@
 from LinearAlgebra import Matrix, Vector
+from LinearAlgebra import lerp
 import random
 import time
 
@@ -90,28 +91,6 @@ def vector_sub(size=5):
     print()
 
 
-def vector_add_complexity(size):
-    """
-    Test function that accepts different input sizes
-    size: number of elements in the initial vector
-    """
-    # Create vector with specified size
-    v1 = Vector([float(i) for i in range(size)])
-    v2 = Vector([float(i) for i in range(size)])
-    return v1.add(v2)
-
-
-def vector_sub_complexity(size):
-    """
-    Test function that accepts different input sizes
-    size: number of elements in the initial vector
-    """
-    # Create vector with specified size
-    v1 = Vector([float(i) for i in range(size)])
-    v2 = Vector([float(i) for i in range(size)])
-    return v1.sub(v2)
-
-
 def scalar_mult(size):
     """
     Test function that accepts different input sizes
@@ -128,18 +107,6 @@ def scalar_mult(size):
     print()
 
 
-def scalar_mult_complexity(size):
-    """
-    Test function that accepts different input sizes
-    size: number of elements in the initial vector
-    """
-    # Create vector with specified size
-    v = Vector([float(i) for i in range(size)])
-    scalar = random.randint(0, 100)
-    v.scl(scalar)
-    return v
-
-
 def matrix_add():
     n = 5
 
@@ -151,7 +118,6 @@ def matrix_add():
     print(f"Matrix B:\n{b}")
     start = time.time()
     a.add(b)
-    print("****", vector)
     total_time1 = time.time() - start
 
     print(f"Matrix A + B:\n{a}")
@@ -171,14 +137,6 @@ def matrix_add():
 
     print(f"Total time row major: {total_time1:.6f} seconds")
     print(f"Total time column major: {total_time2:.6f} seconds")
-
-
-def matrix_add_complexity(n):
-    size = int(n ** 0.5)
-    mat = [[random.randint(0, 100) for _ in range(size)] for _ in range(size)]
-    a = Matrix(mat)
-    b = Matrix(mat)
-    a.add(b)
 
 
 def matrix_sub(n=16):
@@ -201,23 +159,65 @@ def matrix_scalar(n=16):
     print(f"\n A * scalar: \n{A.scl(scalar)}\n")
 
 
-def matrix_scalar_complexity(size):
-    size = int(n ** 0.5)
-    mat = [[random.randint(0, 100) for _ in range(size)] for _ in range(size)]
-    A = Matrix(mat)
-    scalar = 42
-    A.scl(scalar)
-
-
 def vector_linear_combination(n=16):
     size = int(n ** 0.5)
-
+    start = time.time()
     vectors = [Vector([random.randint(0, 100) for _ in range(size)]) for _ in range(3)]
-    print(vectors)
+    print("\nVectors: \n", vectors)
     coefficients = [random.randint(0, 100) for _ in range(3)]
-    print(coefficients)
+    print("\nCoefficients: \n", coefficients)
 
-    Vector.linear_combination(vectors, coefficients)
+    result = Vector.linear_combination(vectors, coefficients)
+    print("\nResult:\n", result)
+    print(f"Total time: {time.time() - start:.6f} seconds")
+
+
+def linear_interpolation():
+    print(f"\nV1 = Vector([2, 1])\nV2 = Vector([4, 2])")
+    V1 = Vector([2, 1])
+    V2 = Vector([4, 2])
+    r = lerp(V1, V2, 0.3)
+    print(f"\nlerp(V1, V2, 0.3): \n{r}")
+
+    M1 = Matrix([[2, 1], [3, 4]])
+    M2 = Matrix([[20, 10], [30, 40]])
+    print(f"\nM1 = Matrix([[2, 1], [3, 4]])\nM2 = Matrix([[20, 10], [30, 40]])")
+
+    r = lerp(M1, M2, 0.5)
+    print(f"\nlerp(M1, M2, 0.5): \n{r}")
+
+    r = lerp(21., 42., 0.3)
+    print(f"\nlerp(21., 42., 0.3): \n{r}")
+
+
+def dot_product():
+    v1 = Vector([1, 2, 3])
+    v2 = Vector([4, 5, 6])
+    print(f"Vector 1: {v1}")
+    print(f"Vector 2: {v2}")
+    print(f"Dot product: {v1.dot(v2)}")
+
+
+def norms():
+    # Test Vector
+    v = Vector([1., 2., 3.])
+    print(f"1-norm: {v.norm_1()}")        # Should be 6.0
+    print(f"2-norm: {v.norm_2()}")        # Should be 3.74165738
+    print(f"inf-norm: {v.norm_inf()}")    # Should be 3.0
+
+    # Test with negative numbers
+    v = Vector([-1., -2.])
+    print(f"1-norm: {v.norm_1()}")        # Should be 3.0
+    print(f"2-norm: {v.norm_2()}")        # Should be 2.236067977
+    print(f"inf-norm: {v.norm_inf()}")    # Should be 2.0
+
+
+def angle_cos():
+    v1 = Vector([1, 2, 3])
+    v2 = Vector([4, 5, 6])
+    print(f"Vector 1: {v1}")
+    print(f"Vector 2: {v2}")
+    print(f"Cosine similarity: {v1.angle_cos(v2)}")
 
 
 if __name__ == "__main__":
@@ -242,11 +242,22 @@ if __name__ == "__main__":
 
         #input("Matrix x scalar...")
         matrix_scalar()
-        '''
 
-        #input("Linear combination...")
+        input("Linear combination...")
         vector_linear_combination()
 
+        input("Linear interpolation...")
+        linear_interpolation()
+
+        input("Vector dot product...")
+        dot_product()
+
+        input("Testing norms...")
+        norms()
+        '''
+
+        input("Testing angle cosine...")
+        angle_cos()
 
 
     except Exception as e:
