@@ -220,6 +220,42 @@ def angle_cos():
     print(f"Cosine similarity: {v1.angle_cos(v2)}")
 
 
+def cross_product():
+    v1 = Vector([1, 2, 3])
+    v2 = Vector([4, 5, 6])
+    print(f"Vector 1: {v1}")
+    print(f"Vector 2: {v2}")
+    print(f"Cross product: {v1.cross_product(v2)}")
+
+
+def matrix_vector_mult():
+    m1 = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    v = Vector([1, 2, 3])
+    print(f"Matrix: \n{m1}")
+    print(f"Vector: \n{v}")
+    print(f"Matrix x Vector: \n{m1.mul_vec(v)}")
+    print()
+    m2 = Matrix([[1, 2], [3, 4], [5, 6]])
+    m3 = Matrix([[1, 2, 3], [4, 5, 6]])
+    print(f"Matrix 2: \n{m2}")
+    print(f"Matrix 3: \n{m3}")
+    print(f"Matrix 2 x Matrix 3:\n{m2.mul_mat(m3)}")
+    
+
+def trace():
+    mat = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    print(f"Matrix: \n{mat}")
+    print(f"Trace: {mat.trace()}")
+
+
+def transpose():
+    mat = Matrix([[1, 2], [5, 6], [8, 9]])
+    print(f"Matrix: \n{mat}")
+    print(f"Transpose: \n{mat.transpose()}")
+
+
+
+
 if __name__ == "__main__":
     try:        
         '''
@@ -254,11 +290,22 @@ if __name__ == "__main__":
 
         input("Testing norms...")
         norms()
-        '''
 
         input("Testing angle cosine...")
         angle_cos()
 
+        input("Testing cross product...")
+        cross_product()
+
+        input("Testing matrix vector multiplication...")
+        matrix_vector_mult()
+
+        input("Testing trace...")
+        trace()
+        '''
+
+        input("Testing transpose...")
+        transpose()
 
     except Exception as e:
         print(f"Error: {e}")

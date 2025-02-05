@@ -129,7 +129,7 @@ class Vector:
 
         return sum(x * y for x, y in zip(self.data, other.data))
     
-    def __matmul__(self, other: 'Vector') -> Union[int, float, complex]:
+    def __mul__(self, other: 'Vector') -> Union[int, float, complex]:
         if len(self.data) != len(other.data):
             raise ValueError("Vectors must have the same length")
         if isinstance(self.data, Vector) or isinstance(other.data, Vector):
@@ -209,10 +209,29 @@ class Vector:
         # Return the cosine
         return dot_product / magnitude_product
 
+    def cross_product(self, other: 'Vector') -> 'Vector':
+        """
+        Computes the cross product of two 3D vectors.
+        The result is a vector perpendicular to both input vectors.
         
-      
 
-        
+            
+        Returns:
+            Vector perpendicular to both input vectors
+            
+        Example:
+            u = [1, 0, 0], v = [0, 1, 0]
+            u × v = [0, 0, 1]
+        """
+        if len(self.data) != 3 or len(other.data) != 3:
+            raise ValueError("Cross product only defined for 3D vectors")
+            
+        return Vector([
+            self.data[1] * other.data[2] - self.data[2] * other.data[1],  # x
+            self.data[2] * other.data[0] - self.data[0] * other.data[2],  # y
+            self.data[0] * other.data[1] - self.data[1] * other.data[0]   # z
+        ])
+            
 
 @dataclass
 class Matrix:
@@ -317,6 +336,100 @@ class Matrix:
     
     def __rmul__(self, scalar: Union[int, float, complex]) -> 'Matrix':
         return self * scalar
+    
+
+    def mul_vec(self, vector: 'Vector') -> 'Vector':
+        """
+        Matrix-Vector multiplication
+        For each row of matrix:
+            Compute dot product with vector
+        Returns vector of results
+        """
+        m = len(self.data)    # rows
+        n = len(self.data[0]) # cols
+        
+        if n != len(vector.data):
+            raise ValueError("Matrix columns must match vector dimension")
+            
+        result = [0] * m
+        for i in range(m):
+            # Dot product of row i with vector
+            for j in range(n):
+                result[i] += self.data[i][j] * vector.data[j]
+                
+        return Vector(result)
+
+    def mul_mat(self, other: 'Matrix') -> 'Matrix':
+        """
+        Matrix-Matrix multiplication
+        For each position (i,j) in result:
+            Dot product of row i (first matrix) with column j (second matrix)
+        """
+        m = len(self.data)      # rows of first
+        n = len(self.data[0])   # cols of first
+        p = len(other.data[0])  # cols of second
+        
+        if n != len(other.data):
+            raise ValueError("Matrix dimensions must match")
+            
+        result = [[0 for _ in range(p)] for _ in range(m)]
+        
+        for i in range(m):
+            for j in range(p):
+                for k in range(n):
+                    result[i][j] += self.data[i][k] * other.data[k][j]
+                    
+        return Matrix(result)
+    
+    def trace(self) -> float:
+        """
+        Computes the trace of a square matrix.
+        Trace is the sum of the elements in the main diagonal (where i == j)
+        
+        Returns:
+            float: Sum of diagonal elements
+            
+        Example:
+            Matrix:
+            [1 2 3]
+            [4 5 6]
+            [7 8 9]
+            Trace = 1 + 5 + 9 = 15
+            
+        Raises:
+            ValueError: If matrix is not square
+        """
+        if len(self.data) != len(self.data[0]):
+            raise ValueError("Trace is only defined for square matrices")
+            
+        n = len(self.data)
+        result = 0.0
+        
+        # Sum elements where row index equals column index
+        return sum(self.data[i][i] for i in range(len(self.data)))
+    
+    def transpose(self) -> 'Matrix':
+        """
+        Creates transpose of matrix where rows become columns.
+        For a matrix A(m×n), returns A^T(n×m)
+        
+        Example:
+            [[1, 2, 3],          [[1, 4],
+            [4, 5, 6]]    ->     [2, 5],
+                                [3, 6]]
+        Returns:
+            Matrix: Transposed matrix
+        """
+        if not self.data:
+            raise ValueError("Cannot transpose empty matrix")
+            
+        # Get dimensions
+        rows = len(self.data)
+        cols = len(self.data[0])
+        
+        # Create new matrix with swapped dimensions
+        # Each new row i is the old column i
+        return Matrix([[self.data[j][i] for j in range(rows)] for i in range(cols)])
 
 
 def lerp(u, v, t):

@@ -34,7 +34,9 @@ def analyze_complexity():
 			#linear_interpolation_vector_complexity,
 			#dot_product_complexity,
 			#norms_complexity,
-			angle_cos_complexity
+			#angle_cos_complexity,
+			#matrix_vector_mult_complexity,
+			transpose_complexity,
 	]
 	memory_usage = []
 	time_usage = []

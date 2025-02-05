@@ -126,6 +126,20 @@ def angle_cos_complexity(size):
     v1.angle_cos(v2)
 
 
+def matrix_vector_mult_complexity(n):
+    size = int(n ** 0.5)
+    mat1 = Matrix([[random.randint(0, 100) for _ in range(size)] for _ in range(size)])
+    mat2 = Matrix([[random.randint(0, 100) for _ in range(size)] for _ in range(size)])
+    mat1.mul_mat(mat2)
+
+
+def transpose_complexity(n):
+    size = int(n ** 0.5)
+    mat = [[random.randint(0, 100) for _ in range(size)] for _ in range(size)]
+    A = Matrix(mat)
+    A.transpose()
+
+
 if __name__ == "__main__":
     try:        
         '''
