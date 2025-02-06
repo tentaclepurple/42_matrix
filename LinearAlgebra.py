@@ -431,6 +431,93 @@ class Matrix:
         # Each new row i is the old column i
         return Matrix([[self.data[j][i] for j in range(rows)] for i in range(cols)])
 
+    def row_echelon(self) -> 'Matrix':
+        """
+        Convert matrix to row echelon form using previously implemented functions
+        Example:
+        [8  5  -2]    ->    [1   x   x]
+        [4  2.5 20]         [0   1   x]
+        [8  5   1]          [0   0   1]
+        """
+        result = Matrix([row[:] for row in self.data])
+        rows = len(result.data)
+        cols = len(result.data[0])
+
+        for i in range(min(rows, cols)):
+            current_row = Vector(result.data[i])
+            
+            # Make pivot 1 by scaling
+            if current_row.data[i] != 0:
+                scalar = 1.0 / current_row.data[i]
+                current_row = current_row.scl(scalar)
+                result.data[i] = current_row.data
+
+            # Eliminate entries below pivot
+            for j in range(i + 1, rows):
+                # Convert to Vector to use our methods
+                row = Vector(result.data[j])
+                if row.data[i] != 0:
+                    factor = -row.data[i]
+                    elimination_row = current_row.scl(factor)
+                    row.add(elimination_row)
+                    result.data[j] = row.data
+
+        return result
+    
+    def determinant(self) -> float:
+        """
+        Computes the determinant of a square matrix.
+        For a 2x2 matrix [[a, b], [c, d]], determinant is: ad - bc
+        For a 3x3 matrix, using first row expansion:
+        |a b c|
+        |d e f| = a|e f| - b|d f| + c|d e|
+        |g h i|    |h i|   |g i|   |g h|
+        
+        Returns:
+            float: Determinant value
+            
+        Raises:
+            ValueError: If matrix is not square
+        """
+        if len(self.data) != len(self.data[0]):
+            raise ValueError("Determinant only defined for square matrices")
+        
+        n = len(self.data)
+        
+        # Base cases
+        if n == 1:
+            return self.data[0][0]
+            
+        if n == 2:
+            return (self.data[0][0] * self.data[1][1] - 
+                    self.data[0][1] * self.data[1][0])
+        
+        # For 3x3 and larger, use first row expansion
+        det = 1.0
+
+        for col in range(n):
+            pivot_row = col
+            while pivot_row < n and self.data[pivot_row][col] == 0:
+                pivot_row += 1
+
+            if pivot_row == n:
+                return 0.0
+
+            if pivot_row != col:
+                self.data[col], self.data[pivot_row] = self.data[pivot_row], self.data[col]
+                det *= -1  
+
+            pivot = self.data[col][col]
+            det *= pivot 
+
+            for row in range(col + 1, n):
+                if self.data[row][col] == 0:
+                    continue
+                factor = self.data[row][col] / pivot
+                for k in range(col, n):
+                    self.data[row][k] -= factor * self.data[col][k]
+
+        return det
 
 def lerp(u, v, t):
     return (1 - t) * u + t * v

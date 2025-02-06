@@ -23,6 +23,7 @@ def measure_complexity(func, size):
 def analyze_complexity():
 	# Test sizes (exponential increase for better visualization)
 	sizes = [4, 16, 64, 256, 1024, 4096]
+
 	functions = [
 			#vector_utility,
 			#vector_add_complexity,
@@ -36,7 +37,9 @@ def analyze_complexity():
 			#norms_complexity,
 			#angle_cos_complexity,
 			#matrix_vector_mult_complexity,
-			transpose_complexity,
+			#transpose_complexity,
+			#row_echelon_complexity,
+			determinant_complexity
 	]
 	memory_usage = []
 	time_usage = []

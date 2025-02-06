@@ -254,6 +254,21 @@ def transpose():
     print(f"Transpose: \n{mat.transpose()}")
 
 
+def row_echelon_form():
+    mat = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    print(f"Matrix: \n{mat}")
+    print(f"Row echelon form: \n{mat.row_echelon()}")
+
+
+def determinant():
+    mat = Matrix([
+        [ 8., 5., -2., 4.],
+        [ 4., 2.5, 20., 4.],
+        [ 8., 5., 1., 4.],
+        [28., -4., 17., 1.]])
+    print(f"Matrix: \n{mat}")
+    print(f"Determinant: {mat.determinant()}")
+
 
 
 if __name__ == "__main__":
@@ -302,10 +317,16 @@ if __name__ == "__main__":
 
         input("Testing trace...")
         trace()
-        '''
 
         input("Testing transpose...")
         transpose()
+
+        input("Testing Row Echelon Form...")
+        row_echelon_form()
+        '''
+
+        input("Testing determinant...")
+        determinant()
 
     except Exception as e:
         print(f"Error: {e}")
