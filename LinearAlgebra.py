@@ -648,6 +648,41 @@ class Matrix:
                 rank += 1
         
         return rank
+    
+    @classmethod
+    def projection(cls, fov: float, ratio: float, near: float, far: float) -> 'Matrix':
+        """
+        Creates a perspective projection matrix.
+        
+        Args:
+            fov: Field of view in radians (vertical angle)
+            ratio: Aspect ratio (width/height)
+            near: Distance to near plane
+            far: Distance to far plane
+            
+        Returns:
+            4x4 projection matrix in column-major order
+        """
+        import math
+        
+        # Convert FOV to radians and calculate tan
+        f = 1.0 / math.tan(fov / 2.0)
+        
+        # Calculate matrix elements
+        a = f / ratio            # Scale X
+        b = f                    # Scale Y
+        c = (far + near) / (near - far)    # Scale and translate Z
+        d = (2 * far * near) / (near - far)  # Perspective divide
+        
+        # Create the projection matrix in column-major order
+        matrix_data = [
+            [a,    0.0,  0.0,  0.0],
+            [0.0,  b,    0.0,  0.0],
+            [0.0,  0.0,  c,    d],
+            [0.0,  0.0, -1.0,  0.0]
+        ]
+        
+        return cls(matrix_data)
 
 
 def lerp(u, v, t):
