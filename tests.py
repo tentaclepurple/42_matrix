@@ -270,6 +270,21 @@ def determinant():
     print(f"Determinant: {mat.determinant()}")
 
 
+def inverse():
+    mat = Matrix([
+        [8., 5., -2.],
+        [4., 7., 20.],
+        [7., 6., 1.]])
+    
+    inv = mat.inverse()
+    print(f"Matrix: \n{mat}")
+    print(f"Inverse: \n{inv}")
+
+    print(f"Check: \n{mat.mul_mat(inv)}")
+
+
+
+
 
 if __name__ == "__main__":
     try:        
@@ -323,10 +338,13 @@ if __name__ == "__main__":
 
         input("Testing Row Echelon Form...")
         row_echelon_form()
-        '''
 
         input("Testing determinant...")
         determinant()
+        '''
+
+        input("Testing inverse...")
+        inverse()
 
     except Exception as e:
         print(f"Error: {e}")

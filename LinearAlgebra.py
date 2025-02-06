@@ -214,8 +214,6 @@ class Vector:
         Computes the cross product of two 3D vectors.
         The result is a vector perpendicular to both input vectors.
         
-
-            
         Returns:
             Vector perpendicular to both input vectors
             
@@ -518,6 +516,65 @@ class Matrix:
                     self.data[row][k] -= factor * self.data[col][k]
 
         return det
+    
+    def inverse(self) -> 'Matrix':
+        """
+        Finds the inverse of a matrix if it exists.
+        The inverse A⁻¹ of matrix A is the matrix that,
+        when multiplied by A, gives the identity:
+        A × A⁻¹ = I
+        
+        Example:
+        [2  0]  inverse   [0.5  0 ]     [1  0]
+        [0  2]    ->      [0   0.5]  =  [0  1]
+        """
+        # Check if matrix is square
+        if len(self.data) != len(self.data[0]):
+            raise ValueError("Matrix must be square")
+            
+        # Check if matrix is singular using determinant
+        if self.determinant() == 0:
+            raise ValueError("Matrix is singular - no inverse exists")
+            
+        n = len(self.data)
+
+        augmented = []
+        for i in range(n):
+            row = []
+            # copy original matrix
+            for j in range(n):
+                row.append(self.data[i][j])
+            # add identity
+            for j in range(n):
+                row.append(1.0 if i == j else 0.0)
+            augmented.append(row)
+        
+        # gaussian elimination
+        for i in range(n):
+            # make 1
+            pivot = augmented[i][i]
+            if pivot == 0:
+                raise ValueError("Matrix is singular")
+                
+            # Divide the row by the pivot
+            for j in range(2*n):
+                augmented[i][j] = augmented[i][j] / pivot
+                
+            for k in range(n):
+                if k != i:
+                    factor = augmented[k][i]
+                    for j in range(2*n):
+                        augmented[k][j] -= factor * augmented[i][j]
+
+        # Extract right part. This is the inverse
+        inverse = []
+        for i in range(n):
+            row = []
+            for j in range(n):
+                row.append(augmented[i][j + n])
+            inverse.append(row)
+            
+        return Matrix(inverse)
 
 def lerp(u, v, t):
     return (1 - t) * u + t * v
