@@ -165,6 +165,24 @@ def determinant_complexity(n):
     A.determinant()
 
 
+def inverse_complexity(n):
+    if n == 4:
+        size = 1
+    elif n == 16:
+        size = 2
+    elif n == 64:
+        size = 4
+    elif n == 256:
+        size = 16
+    elif n == 1024:
+        size = 64
+    elif n == 4096:
+        size = 256
+    mat = [[random.randint(0, 100) for _ in range(size)] for _ in range(size)]
+    A = Matrix(mat)
+    inv = A.inverse()
+
+
 if __name__ == "__main__":
     try:        
         '''
@@ -193,10 +211,10 @@ if __name__ == "__main__":
 
         input("Linear interpolation...")
         linear_interpolation()
-        '''
 
         input("Vector dot product...")
         dot_product()
+        '''
 
 
     except Exception as e:

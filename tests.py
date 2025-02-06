@@ -4,6 +4,7 @@ import random
 import time
 
 
+
 def vector_utility(size):
    """
    Test function that accepts different input sizes
@@ -275,9 +276,9 @@ def inverse():
         [8., 5., -2.],
         [4., 7., 20.],
         [7., 6., 1.]])
-    
+
+    print(f"Matrix->: \n{mat}")
     inv = mat.inverse()
-    print(f"Matrix: \n{mat}")
     print(f"Inverse: \n{inv}")
 
     print(f"Check: \n{mat.mul_mat(inv)}")

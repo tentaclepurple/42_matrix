@@ -39,7 +39,8 @@ def analyze_complexity():
 			#matrix_vector_mult_complexity,
 			#transpose_complexity,
 			#row_echelon_complexity,
-			determinant_complexity
+			#determinant_complexity,
+			inverse_complexity
 	]
 	memory_usage = []
 	time_usage = []

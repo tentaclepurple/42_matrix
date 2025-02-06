@@ -555,11 +555,12 @@ class Matrix:
             pivot = augmented[i][i]
             if pivot == 0:
                 raise ValueError("Matrix is singular")
-                
-            # Divide the row by the pivot
+
+            # Divide all the row by the pivot to make it 1
             for j in range(2*n):
                 augmented[i][j] = augmented[i][j] / pivot
-                
+
+            # Make 0 all elements below and above the 1
             for k in range(n):
                 if k != i:
                     factor = augmented[k][i]
@@ -575,6 +576,7 @@ class Matrix:
             inverse.append(row)
             
         return Matrix(inverse)
+
 
 def lerp(u, v, t):
     return (1 - t) * u + t * v
