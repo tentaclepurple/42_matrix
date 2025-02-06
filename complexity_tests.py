@@ -183,6 +183,13 @@ def inverse_complexity(n):
     inv = A.inverse()
 
 
+def rank_complexity(n):
+    size = int(n ** 0.5)
+    mat = [[random.randint(0, 100) for _ in range(size)] for _ in range(size)]
+    A = Matrix(mat)
+    A.rank()
+
+
 if __name__ == "__main__":
     try:        
         '''

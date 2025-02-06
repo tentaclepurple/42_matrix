@@ -40,7 +40,8 @@ def analyze_complexity():
 			#transpose_complexity,
 			#row_echelon_complexity,
 			#determinant_complexity,
-			inverse_complexity
+			#inverse_complexity,
+			rank_complexity
 	]
 	memory_usage = []
 	time_usage = []

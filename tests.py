@@ -256,9 +256,18 @@ def transpose():
 
 
 def row_echelon_form():
-    mat = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-    print(f"Matrix: \n{mat}")
-    print(f"Row echelon form: \n{mat.row_echelon()}")
+    mat = Matrix([[8., 5., -2., 4., 28.],
+            [4., 2.5, 20., 4., -4.],
+            [8., 5., 1., 4., 17.]])
+    print(f"Matrix: \n{mat}\n")
+    print(f"Row echelon form: \n{mat.row_echelon()}\n")
+    print()
+    mat2 = Matrix([[1., 2., 3., 4.],
+            [5., 6., 7., 8.],
+            [9., 10., 11., 12.]])
+    print(f"Matrix: \n{mat2}\n")
+    print(f"Row echelon form: \n{mat2.row_echelon()}\n")
+
 
 
 def determinant():
@@ -282,6 +291,35 @@ def inverse():
     print(f"Inverse: \n{inv}")
 
     print(f"Check: \n{mat.mul_mat(inv)}")
+
+
+def test_rank():
+
+    m1 = Matrix([[1., 0., 0.], 
+                 [0., 1., 0.], 
+                 [0., 0., 1.]])
+    print(f"Matrix: \n{m1}\n")
+    print(f"Rank: {m1.rank()}\nShould be 3")
+    print()
+
+    m2 = Matrix([[ 1., 2., 0., 0.],
+            [ 2., 4., 0., 0.],
+            [-1., 2., 1., 1.]
+            ])
+    print(f"Matrix: \n{m2}\n")
+    print(f"Rank: {m2.rank()}\nShould be 2")
+    print()
+
+    m3 = Matrix([[ 8., 5., -2.],
+        [ 4., 7., 20.],
+        [ 7., 6., 1.],
+        [21., 18., 7.]])
+    print(f"Matrix: \n{m3}\n")
+    print(f"Rank: {m3.rank()}\nShould be 3")
+    print()
+
+    
+    
 
 
 
@@ -342,10 +380,13 @@ if __name__ == "__main__":
 
         input("Testing determinant...")
         determinant()
-        '''
 
         input("Testing inverse...")
         inverse()
+        '''
+
+        input("Testing rank...")
+        test_rank()
 
     except Exception as e:
         print(f"Error: {e}")

@@ -2,6 +2,7 @@ from typing import List, TypeVar, Union
 from dataclasses import dataclass
 from itertools import chain
 import numpy as np
+import copy
 
 T = TypeVar('T', int, float, complex)  # T can only be float or complex
 
@@ -233,7 +234,7 @@ class Vector:
 
 @dataclass
 class Matrix:
-    data: List[List[T]]  # Matrix stored as list of columns
+    data: List[List[T]] 
 
     def __post_init__(self):
         # Check types
@@ -251,13 +252,14 @@ class Matrix:
 
     def shape(self) -> tuple[int, int]:
         """
-        Returns matrix dimensions
+        Returns matrix dimensions as (rows, columns)
+        
         Returns:
             Tuple of (rows, columns)
         """
         if not self.data:
             return (0, 0)
-        return (len(self.data[0]), len(self.data))
+        return (len(self.data), len(self.data[0]))
     
     def is_square(self) -> bool:
         """Checks if matrix is square (same number of rows and columns)"""
@@ -431,35 +433,82 @@ class Matrix:
 
     def row_echelon(self) -> 'Matrix':
         """
-        Convert matrix to row echelon form using previously implemented functions
-        Example:
-        [8  5  -2]    ->    [1   x   x]
-        [4  2.5 20]         [0   1   x]
-        [8  5   1]          [0   0   1]
+        Convert matrix to row echelon form 
+
         """
         result = Matrix([row[:] for row in self.data])
         rows = len(result.data)
         cols = len(result.data[0])
-
-        for i in range(min(rows, cols)):
-            current_row = Vector(result.data[i])
+        epsilon = 1e-10
+        
+        # Keep track of where we found pivots
+        pivot_positions = []
+        pivot_row = 0
+        
+        # Forward elimination
+        for col in range(cols):
+            if pivot_row >= rows:
+                break
+                
+            # Find the largest pivot in this column
+            max_val = abs(result.data[pivot_row][col])
+            max_row = pivot_row
+            for i in range(pivot_row + 1, rows):
+                if abs(result.data[i][col]) > max_val:
+                    max_val = abs(result.data[i][col])
+                    max_row = i
+                    
+            # Skip if no good pivot found
+            if max_val < epsilon:
+                continue
+                
+            # Swap rows if needed
+            if max_row != pivot_row:
+                result.data[pivot_row], result.data[max_row] = \
+                    result.data[max_row], result.data[pivot_row]
             
-            # Make pivot 1 by scaling
-            if current_row.data[i] != 0:
-                scalar = 1.0 / current_row.data[i]
-                current_row = current_row.scl(scalar)
-                result.data[i] = current_row.data
-
-            # Eliminate entries below pivot
-            for j in range(i + 1, rows):
-                # Convert to Vector to use our methods
-                row = Vector(result.data[j])
-                if row.data[i] != 0:
-                    factor = -row.data[i]
-                    elimination_row = current_row.scl(factor)
-                    row.add(elimination_row)
-                    result.data[j] = row.data
-
+            # Remember where we found this pivot
+            pivot_positions.append((pivot_row, col))
+            
+            # Normalize pivot row
+            pivot = result.data[pivot_row][col]
+            current_row = Vector(result.data[pivot_row])
+            current_row.scl(1.0 / pivot)
+            result.data[pivot_row] = current_row.data
+            
+            # Eliminate below
+            for i in range(pivot_row + 1, rows):
+                if abs(result.data[i][col]) > epsilon:
+                    factor = -result.data[i][col]
+                    elimination_row = Vector(current_row.data).scl(factor)
+                    row_i = Vector(result.data[i])
+                    row_i.add(elimination_row)
+                    result.data[i] = row_i.data
+            
+            pivot_row += 1
+        
+        # Backward elimination (reduce above pivots)
+        for pivot_row, pivot_col in reversed(pivot_positions):
+            pivot_vector = Vector(result.data[pivot_row])
+            
+            # Eliminate entries above
+            for i in range(pivot_row):
+                if abs(result.data[i][pivot_col]) > epsilon:
+                    factor = -result.data[i][pivot_col]
+                    elimination_row = Vector(pivot_vector.data).scl(factor)
+                    row_i = Vector(result.data[i])
+                    row_i.add(elimination_row)
+                    result.data[i] = row_i.data
+        
+        # Clean up any tiny values to exact zeros
+        for i in range(rows):
+            for j in range(cols):
+                if abs(result.data[i][j]) < epsilon:
+                    result.data[i][j] = 0.0
+                # Round to reasonable decimal places for cleaner output
+                else:
+                    result.data[i][j] = round(result.data[i][j], 7)
+        
         return result
     
     def determinant(self) -> float:
@@ -576,6 +625,29 @@ class Matrix:
             inverse.append(row)
             
         return Matrix(inverse)
+
+    def rank(self) -> int:
+        """
+        The rank is the number of linearly independent rows/columns,
+        which equals the number of non-zero rows in row echelon form.
+        """
+        # Get the matrix in row echelon form using our existing method
+        echelon_matrix = self.row_echelon()
+        rows, cols = echelon_matrix.shape()
+        epsilon = 1e-10
+        
+        # Count non-zero rows
+        rank = 0
+        for i in range(rows):
+            row_has_nonzero = False
+            for j in range(cols):
+                if abs(echelon_matrix.data[i][j]) > epsilon:
+                    row_has_nonzero = True
+                    break
+            if row_has_nonzero:
+                rank += 1
+        
+        return rank
 
 
 def lerp(u, v, t):
