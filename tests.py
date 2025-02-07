@@ -73,10 +73,10 @@ def vector_add(size=0):
     v2 = Vector([random.randint(0, 100) for i in range(10)])
     
     print()
-    print(f"Vector 1: {v1}")
-    print(f"Vector 2: {v2}")
-    print(f"Vector 1 + Vector 2: {v1.add(v2)}")
-    print(v1)
+    print(f"Vector 1: \n{v1}")
+    print(f"Vector 2: \n{v2}")
+
+    print(f"Vector 1 + Vector 2: \n{v1.add(v2)}")
     print()
 
 
@@ -86,9 +86,9 @@ def vector_sub(size=5):
     v2 = Vector([random.randint(0, 100) for i in range(size)])
     
     print()
-    print(f"Vector 1: {v1}")
-    print(f"Vector 2: {v2}")
-    print(f"Vector 1 - Vector 2: {v1.sub(v2)}")
+    print(f"Vector 1: \n{v1}")
+    print(f"Vector 2: \n{v2}")
+    print(f"Vector 1 - Vector 2: \n{v1.sub(v2)}")
     print()
 
 
@@ -100,11 +100,11 @@ def scalar_mult(size):
     # Create vector with specified size
     v = Vector([float(i) for i in range(size)])
     scalar = random.randint(0, 100)
-    print(f"Vector: {v}")
-    print(f"Scalar: {scalar}")
+    print(f"Vector: \n{v}")
+    print(f"Scalar: \n{scalar}")
     
     v.scl(scalar)
-    print(f"After scalar multiplication: {v}")
+    print(f"After scalar multiplication: \n{v}")
     print()
 
 
@@ -179,14 +179,14 @@ def linear_interpolation():
     V2 = Vector([4, 2])
     r = lerp(V1, V2, 0.3)
     print(f"\nlerp(V1, V2, 0.3): \n{r}")
-
+    print()
     M1 = Matrix([[2, 1], [3, 4]])
     M2 = Matrix([[20, 10], [30, 40]])
     print(f"\nM1 = Matrix([[2, 1], [3, 4]])\nM2 = Matrix([[20, 10], [30, 40]])")
-
+    print()
     r = lerp(M1, M2, 0.5)
     print(f"\nlerp(M1, M2, 0.5): \n{r}")
-
+    print()
     r = lerp(21., 42., 0.3)
     print(f"\nlerp(21., 42., 0.3): \n{r}")
 
@@ -196,18 +196,21 @@ def dot_product():
     v2 = Vector([4, 5, 6])
     print(f"Vector 1: {v1}")
     print(f"Vector 2: {v2}")
+    print()
     print(f"Dot product: {v1.dot(v2)}")
 
 
 def norms():
     # Test Vector
     v = Vector([1., 2., 3.])
+    print(f"Vector: {v}\n")
     print(f"1-norm: {v.norm_1()}")        # Should be 6.0
     print(f"2-norm: {v.norm_2()}")        # Should be 3.74165738
     print(f"inf-norm: {v.norm_inf()}")    # Should be 3.0
 
     # Test with negative numbers
     v = Vector([-1., -2.])
+    print(f"\nVector: {v}\n")
     print(f"1-norm: {v.norm_1()}")        # Should be 3.0
     print(f"2-norm: {v.norm_2()}")        # Should be 2.236067977
     print(f"inf-norm: {v.norm_inf()}")    # Should be 2.0
@@ -216,17 +219,17 @@ def norms():
 def angle_cos():
     v1 = Vector([1, 2, 3])
     v2 = Vector([4, 5, 6])
-    print(f"Vector 1: {v1}")
-    print(f"Vector 2: {v2}")
-    print(f"Cosine similarity: {v1.angle_cos(v2)}")
+    print(f"Vector 1: \n{v1}")
+    print(f"Vector 2: \n{v2}")
+    print(f"Cosine similarity: \n{v1.angle_cos(v2)}\n")
 
 
 def cross_product():
     v1 = Vector([1, 2, 3])
     v2 = Vector([4, 5, 6])
-    print(f"Vector 1: {v1}")
-    print(f"Vector 2: {v2}")
-    print(f"Cross product: {v1.cross_product(v2)}")
+    print(f"Vector 1: \n{v1}")
+    print(f"Vector 2: \n"{v2})
+    print(f"Cross product: \n{v1.cross_product(v2)}")
 
 
 def matrix_vector_mult():
@@ -246,7 +249,7 @@ def matrix_vector_mult():
 def trace():
     mat = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     print(f"Matrix: \n{mat}")
-    print(f"Trace: {mat.trace()}")
+    print(f"Trace: \n{mat.trace()}")
 
 
 def transpose():
@@ -277,7 +280,7 @@ def determinant():
         [ 8., 5., 1., 4.],
         [28., -4., 17., 1.]])
     print(f"Matrix: \n{mat}")
-    print(f"Determinant: {mat.determinant()}")
+    print(f"Determinant: \n{mat.determinant()}")
 
 
 def inverse():
@@ -322,69 +325,66 @@ def test_rank():
     
 
 
-
-
-
 if __name__ == "__main__":
     try:        
-        '''
+        
         input("Testing utility functions...")
         utility()
+        print()
         input("Vector add...")
         vector_add()
-
+        print()
         input("Vector sub...")
         vector_sub()
-        
+        print()
         input("Vector scalar multiplication...")
         scalar_mult(5)
-
+        print()
         input("Matrix add...")
         matrix_add()
-
-        #input("Matrix sub...")
+        print()
+        input("Matrix sub...")
         matrix_sub()
-
-        #input("Matrix x scalar...")
+        print()
+        input("Matrix x scalar...")
         matrix_scalar()
-
+        print()
         input("Linear combination...")
         vector_linear_combination()
-
+        print()
         input("Linear interpolation...")
         linear_interpolation()
-
+        print()
         input("Vector dot product...")
         dot_product()
-
+        print()
         input("Testing norms...")
         norms()
-
+        print()
         input("Testing angle cosine...")
         angle_cos()
-
+        print()
         input("Testing cross product...")
         cross_product()
-
+        print()
         input("Testing matrix vector multiplication...")
         matrix_vector_mult()
-
+        print()
         input("Testing trace...")
         trace()
-
+        print()
         input("Testing transpose...")
         transpose()
-
+        print()
         input("Testing Row Echelon Form...")
         row_echelon_form()
-
+        print()
         input("Testing determinant...")
         determinant()
-
+        print()
         input("Testing inverse...")
         inverse()
-        '''
-
+        print()
         input("Testing rank...")
         test_rank()
 

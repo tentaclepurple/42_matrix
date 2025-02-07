@@ -85,12 +85,12 @@ def test_complex_matrix_inverse():
     print(f"Inverse:\n{m.inverse()}")
 
 if __name__ == "__main__":
-    try:
-        test_complex_vector_operations()
-        test_complex_dot_product()
-        test_complex_matrix_operations()
-        test_complex_matrix_determinant()
-        test_complex_matrix_inverse()
+    #try:
+    test_complex_vector_operations()
+    test_complex_dot_product()
+    test_complex_matrix_operations()
+    test_complex_matrix_determinant()
+    test_complex_matrix_inverse()
 
-    except Exception as e:
-        print(f"Error: {e}")
+    """ except Exception as e:
+        print(f"Error: {e}") """

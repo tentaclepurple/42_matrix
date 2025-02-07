@@ -78,15 +78,28 @@ class Vector:
         self.data = [x * scalar for x in self.data]
         return self
     
-    def __mul__(self, scalar: Union[int, float, complex]) -> 'Vector':
-        """Multiplies the vector by a scalar"""
-        if not isinstance(scalar, (int, float, complex)):
-            raise TypeError("Scalar must be numeric (int, float, or complex)")
-        new = [x * scalar for x in self.data]
-        return Vector(new)
+    def __mul__(self, other):
+        # Si es un escalar (número), realiza multiplicación por escalar
+        if isinstance(other, (int, float, complex)):
+            return Vector([x * other for x in self.data])
+        
+        # Si es un vector, realiza producto escalar (dot product)
+        elif isinstance(other, Vector):
+            if len(self.data) != len(other.data):
+                raise ValueError("Vectors must have the same length")
+            return sum(x * y.conjugate() for x, y in zip(self.data, other.data))
+        
+        # Si no es ninguno de los anteriores, error
+        raise TypeError("Unsupported operand type")
     
-    def __rmul__(self, scalar: Union[int, float, complex]) -> 'Vector':
-        return self * scalar
+    def __rmul__(self, other):
+        if isinstance(other, (int, float, complex)):
+            return Vector([x * other for x in self.data])
+        elif isinstance(other, Vector):
+            if len(self.data) != len(other.data):
+                raise ValueError("Vectors must have the same length")
+            return sum(x * y.conjugate() for x, y in zip(self.data, other.data))
+        raise TypeError("Unsupported operand type")
 
     @classmethod
     def linear_combination(cls, vectors: List['Vector'], coefficients: List[Union[int, float, complex]]) -> 'Vector':
@@ -127,26 +140,23 @@ class Vector:
         if isinstance(self.data, Vector) or isinstance(other.data, Vector):
             raise TypeError("Not Vector instances")
 
-        return sum(x * y for x, y in zip(self.data, other.data))
+        return sum(x * y.conjugate() for x, y in zip(self.data, other.data))
     
-    def __mul__(self, other: 'Vector') -> Union[int, float, complex]:
-        if len(self.data) != len(other.data):
-            raise ValueError("Vectors must have the same length")
-        if isinstance(self.data, Vector) or isinstance(other.data, Vector):
-            raise TypeError("Not Vector instances")
-        
-        return sum(x * y for x, y in zip(self.data, other.data))
+    """     def __mul__(self, other: 'Vector') -> Union[int, float, complex]:
+            if len(self.data) != len(other.data):
+                raise ValueError("Vectors must have the same length")
+            if isinstance(self.data, Vector) or isinstance(other.data, Vector):
+                raise TypeError("Not Vector instances")
+            
+            return sum(x * y.conjugate for x, y in zip(self.data, other.data)) """
     
     def norm_1(self) -> float:
         """
         Manhattan/Taxicab norm (L1 norm)
         Example: [-1, 2, -3] -> 6 (because |−1| + |2| + |−3| = 6)
         """
-        result = 0.0
         # Sum the absolute value of each component
-        for x in self.data:
-            result += x if x >= 0 else -x
-        return result
+        return sum(abs(x) for x in self.data)
     
     def norm_2(self) -> float:
         """
@@ -166,12 +176,9 @@ class Vector:
         Absolute value of the component with the largest magnitude
         Example: [1, -5, 3] -> 5 (because max(|1|, |−5|, |3|) = 5)
         """
-        max_abs = 0.0
+
         # Find the maximum absolute value
-        for x in self.data:
-            current_abs = x if x >= 0 else -x
-            max_abs = max(max_abs, current_abs)
-        return max_abs
+        return max(abs(x) for x in self.data)
     
     def angle_cos(self, other: 'Vector') -> float:
         """
