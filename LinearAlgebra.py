@@ -662,14 +662,12 @@ class Matrix:
         Returns:
             4x4 projection matrix in column-major order
         """
-        import math
+        from math import tan
         
-        # Convert FOV to radians and calculate tan
-        f = 1.0 / math.tan(fov / 2.0)
-        
+        f = 1.0 / tan(fov / 2.0)
+        b = f
         # Calculate matrix elements
-        a = f / ratio            # Scale X
-        b = f                    # Scale Y
+        a = f / ratio
         c = (far + near) / (near - far)    # Scale and translate Z
         d = (2 * far * near) / (near - far)  # Perspective divide
         
@@ -677,16 +675,12 @@ class Matrix:
         matrix_data = [
             [a,    0.0,  0.0,  0.0],
             [0.0,  b,    0.0,  0.0],
-            [0.0,  0.0,  c,    d],
-            [0.0,  0.0, -1.0,  0.0]
+            [0.0,  0.0,  c,    -1.0],
+            [0.0,  0.0, d,  0.0]
         ]
         
         return cls(matrix_data)
     
-    @staticmethod
-    def proj2(fov: float, ratio: float, near: float, far: float) -> 'Matrix':
-        pass
-
 
 def lerp(u, v, t):
     return (1 - t) * u + t * v

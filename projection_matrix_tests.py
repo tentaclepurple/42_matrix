@@ -2,17 +2,10 @@ from LinearAlgebra import Matrix, Vector
 from LinearAlgebra import lerp
 
 
-def save_to_proj_file(matrix: Matrix, folder_path: str = "matrix_display") -> None:
-    """
-    Saves the matrix to a 'proj' file in the specified folder.
-    Creates the folder if it doesn't exist.
-    The matrix is saved in column-major order with the format required by the display software.
-    
-    Args:
-        folder_path: Path to the folder where the proj file will be saved
-    """
+def save_proj_file(matrix: Matrix) -> None:
     import os
-    
+
+    folder_path = "matrix_display"
     # Create directory if it doesn't exist
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
@@ -28,21 +21,32 @@ def save_to_proj_file(matrix: Matrix, folder_path: str = "matrix_display") -> No
             f.write(line + "\n")
 
 
-
 def test_projection():
     from math import pi
     
+    fov= 45.0 * pi / 180.0
+    ratio = 4 / 3
+    near = 2.
+    far = 20.
+
+    print("\nParameters")
+    print(f"fov: {fov * 180.0 / pi:.1f} degrees")
+    print(f"ratio: {ratio}")
+    print(f"near: {near}")
+    print(f"far: {far}")
+
     # Create projection matrix
     proj_matrix = Matrix.projection(
-        fov=60.0 * pi / 180.0,  # 60 degrees in radians
-        ratio=1,          # Aspect ratio
-        near=10.1,               # Near plane
-        far=10.0               # Far plane
+        fov,
+        ratio,
+        near,
+        far
     )
-    
+
     # Save to proj file
-    save_to_proj_file(proj_matrix)
-    print(f"Matrix:\n{proj_matrix}\nSaved to 'matrix_display/proj' file")
+    #save_proj_file(proj_matrix)
+    mat = str(proj_matrix)
+    print(f"\n{mat.replace('[', '').replace(']', '').replace('  ', ', ')}")
 
 
 if __name__ == "__main__":
