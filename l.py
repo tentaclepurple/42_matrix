@@ -3,60 +3,34 @@ import subprocess
 
 def projection(fov, ratio, near, far):
     """
-    Creates a perspective projection matrix.
-    Following the formula from the subject:
-    [2n/(r-l)    0          (r+l)/(r-l)     0          ]
-    [0           2n/(t-b)   (t+b)/(t-b)     0          ]
-    [0           0          -(f+n)/(f-n)    -2fn/(f-n)  ]
-    [0           0          -1               0          ]
+    Creates a 4x4 perspective projection matrix.
     """
-    # Calculate basic parameters
-    f = 1.0 / np.tan(fov / 2.0)
-    depth = far - near
-    
-    # Create the matrix in column-major order
-    matrix = np.zeros((4, 4))
-    
-    # First column
-    matrix[0, 0] = f / ratio
-    matrix[1, 0] = 0.0
-    matrix[2, 0] = 0.0
-    matrix[3, 0] = 0.0
-    
-    # Second column
-    matrix[0, 1] = 0.0
-    matrix[1, 1] = f
-    matrix[2, 1] = 0.0
-    matrix[3, 1] = 0.0
-    
-    # Third column
-    matrix[0, 2] = 0.0
-    matrix[1, 2] = 0.0
-    matrix[2, 2] = -(far + near) / depth
-    matrix[3, 2] = -1.0
-    
-    # Fourth column
-    matrix[0, 3] = 0.0
-    matrix[1, 3] = 0.0
-    matrix[2, 3] = -(2.0 * far * near) / depth
-    matrix[3, 3] = 0.0
-    
-    return matrix
+    f = 1 / np.tan(fov / 2)
+    depth = near - far  # Invertimos la diferencia
+
+    proj = np.zeros((4, 4))
+    proj[0, 0] = f / ratio
+    proj[1, 1] = f
+    proj[2, 2] = (far + near) / depth  # Cambiamos el signo
+    proj[2, 3] = 2 * far * near / depth  # Cambiamos el signo
+    proj[3, 2] = -1
+    proj[3, 3] = 0
+
+    return proj
 
 if __name__ == "__main__":
-    # Valores que funcionaron anteriormente
-    fov = np.radians(60)      # 60 grados a radianes
-    ratio = 1.0               # Ratio 1:1
-    near = 25.0              # Plano cercano
-    far = 10.0               # Plano lejano
-    
-    # Generar la matriz
+    fov = np.radians(60)
+    ratio = 1.0
+    near = 25.0    # Plano cercano más cercano
+    far = 15.0   # Plano lejano ajustado
+
+    # Generate the projection matrix
     proj_matrix = projection(fov, ratio, near, far)
-    
-    # Guardar en formato correcto
-    np.savetxt('proj', proj_matrix, fmt='%.6f', delimiter=', ')
+
+    # Mostrar la matriz para verificación
     print("Matriz generada:")
     print(proj_matrix)
     
-    # Ejecutar el visualizador
+    # Save and run
+    np.savetxt('proj', proj_matrix, fmt='%.5f', delimiter=', ')
     subprocess.run(["./display"])

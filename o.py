@@ -23,13 +23,14 @@ def projection(fov, ratio, near, far):
 
 if __name__ == "__main__":
     # Example parameters for the projection matrix
-    fov = np.radians(60)
-    ratio = 1.0
+    fov = np.radians(40)
+    ratio = 4.
     near = 25.0   # Mantenemos el near
-    far = 5.0 
+    far = 20.0 
 
     # Generate the projection matrix
     proj_matrix = projection(fov, ratio, near, far)
+    #proj_matrix = proj_matrix.T
 
     # Save the projection matrix to a file called "proj"
     np.savetxt('proj', proj_matrix, fmt='%.5f', delimiter=', ')
