@@ -34,10 +34,10 @@ def test_projection():
     
     # Create projection matrix
     proj_matrix = Matrix.projection(
-        fov=100.0 * pi / 180.0,  # 60 degrees in radians
-        ratio=4/3,          # Aspect ratio
-        near=1.0,               # Near plane
-        far=50.0               # Far plane
+        fov=60.0 * pi / 180.0,  # 60 degrees in radians
+        ratio=1,          # Aspect ratio
+        near=10.1,               # Near plane
+        far=10.0               # Far plane
     )
     
     # Save to proj file

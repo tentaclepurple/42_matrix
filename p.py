@@ -1,6 +1,6 @@
 import math
 from typing import List
-
+from LinearAlgebra import Matrix
 
 def create_zero_matrix(rows, columns):
     zero_matrix = [[0.0] * columns for _ in range(rows)]
@@ -17,7 +17,12 @@ def create_zero_matrix(rows, columns):
 
 def projection(fov, ratio, near, far):
     # by definition  projection matrix is 4x4 matrix
-    projection_matrix = create_zero_matrix(4, 4)
+    #projection_matrix = create_zero_matrix(4, 4)
+
+    projection_matrix = [[0., 0., 0., 0.],
+                                             [0., 0., 0., 0.],
+                                             [0., 0., 0., 0.],
+                                             [0., 0., 0., 0.]]
 
     fov_radian = math.radians(fov)
 
@@ -28,19 +33,20 @@ def projection(fov, ratio, near, far):
     projection_matrix[2][3] = -(2 * far * near) / (far - near)
     projection_matrix[3][2] = -1.0
 
-    return projection_matrix
+    return Matrix(projection_matrix)
 
 
 if __name__ == "__main__":
-    fov = 100.0  # Field-of-view in degrees
+    fov = 180.0  # Field-of-view in degrees
     ratio = 4 / 3  # Window size ratio (width / height)
     near = 1.0  # Distance of the near plane
     far = 50.0  # Distance of the far plane
 
     projection_matrix = projection(fov, ratio, near, far)
-    matrix_str = '\n'.join(', '.join(str(element)
+    print(projection_matrix)
+    """ matrix_str = '\n'.join(', '.join(str(element)
                            for element in row) for row in projection_matrix)
     # print(matrix_str)
     print("Projection Matrix\n", "============\n", projection_matrix, sep='')
     print("For use in the program\n", "==================", sep='')
-    print(matrix_str)
+    print(matrix_str) """

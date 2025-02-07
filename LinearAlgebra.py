@@ -1,7 +1,6 @@
 from typing import List, TypeVar, Union
 from dataclasses import dataclass
 from itertools import chain
-import numpy as np
 import copy
 
 T = TypeVar('T', int, float, complex)  # T can only be float or complex
@@ -683,6 +682,10 @@ class Matrix:
         ]
         
         return cls(matrix_data)
+    
+    @staticmethod
+    def proj2(fov: float, ratio: float, near: float, far: float) -> 'Matrix':
+        pass
 
 
 def lerp(u, v, t):
