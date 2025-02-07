@@ -683,4 +683,23 @@ class Matrix:
     
 
 def lerp(u, v, t):
+    '''
+    Linear interpolation between two values.
+    u: Start value
+    v: End value
+    t: Interpolation factor (0.0 to 1.0)
+    
+    Must work with any numeric type (int, float, complex, Vector, Matrix)
+    All arguments must be of the same type
+    '''
+    if type(u) != type(v):
+        raise TypeError("Both arguments must be of the same type")
+
+    if not isinstance(u, (int, float, complex, Vector, Matrix)):
+        raise TypeError("Unsupported type for lerp")
+
+    if not isinstance(t, (int, float)) or not (0.0 <= t <= 1.0):
+        raise ValueError("t must be a number between 0.0 and 1.0")
+
     return (1 - t) * u + t * v
+
