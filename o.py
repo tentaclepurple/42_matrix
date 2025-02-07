@@ -24,9 +24,9 @@ def projection(fov, ratio, near, far):
 if __name__ == "__main__":
     # Example parameters for the projection matrix
     fov = np.radians(60)
-    ratio = 1.
-    near = 21.0   # Mantenemos el near
-    far = 20.0 
+    ratio = 1
+    near = 25.0   # Mantenemos el near
+    far = 24
 
     # Generate the projection matrix
     proj_matrix = projection(fov, ratio, near, far)
