@@ -321,9 +321,6 @@ def test_rank():
     print(f"Rank: {m3.rank()}\nShould be 3")
     print()
 
-    
-    
-
 
 if __name__ == "__main__":
     try:        
