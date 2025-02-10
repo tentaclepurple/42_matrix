@@ -25,22 +25,22 @@ def analyze_complexity():
 	sizes = [4, 16, 64, 256, 1024, 4096]
 
 	functions = [
-			#vector_utility,
-			#vector_add_complexity,
-			#vector_sub_complexity,
-			#matrix_add_complexity,
-			#matrix_add_complexity,
-			#matrix_scalar_complexity,
-			#vector_linear_combination_complexity,
-			#linear_interpolation_vector_complexity,
-			#dot_product_complexity,
-			#norms_complexity,
-			#angle_cos_complexity,
-			#matrix_vector_mult_complexity,
-			#transpose_complexity,
-			#row_echelon_complexity,
-			#determinant_complexity,
-			#inverse_complexity,
+			vector_utility,
+			vector_add_complexity,
+			vector_sub_complexity,
+			matrix_add_complexity,
+			matrix_add_complexity,
+			matrix_scalar_complexity,
+			vector_linear_combination_complexity,
+			linear_interpolation_vector_complexity,
+			dot_product_complexity,
+			norms_complexity,
+			angle_cos_complexity,
+			matrix_vector_mult_complexity,
+			transpose_complexity,
+			row_echelon_complexity,
+			determinant_complexity,
+			inverse_complexity,
 			rank_complexity
 	]
 	memory_usage = []

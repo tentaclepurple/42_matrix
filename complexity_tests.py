@@ -192,9 +192,7 @@ def rank_complexity(n):
 
 if __name__ == "__main__":
     try:        
-        '''
-        input("Testing utility functions...")
-        utility()
+
         input("Vector add...")
         vector_add()
 
@@ -207,10 +205,10 @@ if __name__ == "__main__":
         input("Matrix add...")
         matrix_add()
 
-        #input("Matrix sub...")
+        input("Matrix sub...")
         matrix_sub()
 
-        #input("Matrix x scalar...")
+        input("Matrix x scalar...")
         matrix_scalar()
 
         input("Linear combination...")
@@ -221,7 +219,22 @@ if __name__ == "__main__":
 
         input("Vector dot product...")
         dot_product()
-        '''
+
+        input("Vector norms...")
+        norms()
+
+        input("Vector angle cosine...")
+        angle_cos()
+
+        input("Matrix x vector...")
+        matrix_vector_mult()
+
+        input("Matrix transpose...")
+        transpose()
+
+        input("Matrix row echelon...")
+        row_echelon()
+        
 
 
     except Exception as e:

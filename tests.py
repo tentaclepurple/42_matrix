@@ -228,7 +228,7 @@ def cross_product():
     v1 = Vector([1, 2, 3])
     v2 = Vector([4, 5, 6])
     print(f"Vector 1: \n{v1}")
-    print(f"Vector 2: \n"{v2})
+    print(f"Vector 2: \n{v2}")
     print(f"Cross product: \n{v1.cross_product(v2)}")
 
 
